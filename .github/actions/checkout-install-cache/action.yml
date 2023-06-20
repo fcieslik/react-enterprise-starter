@@ -1,0 +1,19 @@
+name: Checkout, Install node and dependencies
+description: Reusable step
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - uses: actions/cache@v3
+      id: npm-cache
+      with:
+        path: ~/.npm
+        key: npm-${{ hashFiles('**/package-lock.json') }}
+    - name: Install npm dependencies
+      shell: bash
+      run: npm ci
